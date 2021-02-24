@@ -3,13 +3,9 @@
 
 
 $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
-//$email = 'heli.kopter@ametikool.ee';
 $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-//$password = '12345';
 $passwordAgain = filter_input(INPUT_POST, 'password_again', FILTER_SANITIZE_STRING);
-//$passwordAgain = '12345';
 $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
-//$action = 'save';
 $userRole = filter_input(INPUT_POST, 'userrole', FILTER_SANITIZE_STRING);
 
 
@@ -17,28 +13,23 @@ if (isset($action) && $action === 'save') {
 
     $errors = [];
 
-    //kontroll
     if (empty($email)) {
         $errors['email'] = t('email_empty', true);
     }
 
-    //password empty
     if (empty($password)) {
         $errors['password_empty'] = t('password_empty', true);
     }
 
-    //password match
     if ($password != $passwordAgain) {
         $errors['password_mismatch'] = t('password_mismatch', true);
     }
 
-    //check if username exists
     if (!empty(User::findByEmail($email))) {
         $errors['user_exists'] = t('user_exists', true);
     }
 
     if (empty($errors)) {
-        //save new user
         $user = new User();
         $user->email = $email;
         $user->password = createPassword($password);

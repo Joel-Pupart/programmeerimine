@@ -65,10 +65,6 @@ if (isset($action) && $action === 'update') {
             array_push($errors, t('not_image', true));
         }
 
-        if ($_FILES["image"]["size"] > 500000) {
-            array_push($errors, t('image_large', true));
-        }
-
         if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
             array_push($errors, t('image_format', true));
         }
@@ -84,16 +80,7 @@ if (isset($action) && $action === 'update') {
 
         if ($_FILES["image"]["error"] == 0 && $_FILES["image"]["name"] != "") {
             move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile);
-            $newTarget = implode('.', explode('.', $targetFile, -1));
-            $secondFile = $newTarget . "150." . $imageFileType;
-            $thirdFile = $newTarget . "50." . $imageFileType;
-            
-            copy($targetFile, $newTarget . "150." . $imageFileType);
-            resize_image($secondFile, 150, 150, $imageFileType);
-
-            copy($targetFile, $newTarget . "50." . $imageFileType);
-            resize_image($thirdFile, 50, 50, $imageFileType);
-
+            resize_image($targetFile, 1000, 1000, $imageFileType);
             $post->image = $fileName;
         }
 
@@ -182,10 +169,13 @@ echo empty($errors)
             <input type="file" id="image" name="image">
         </div>
     <?php } else { 
+
         $file = explode('.', $oPost->image);
-        $image = $file[0] . "50." . $file[1];
-        echo '<img src="/img/' . $image . '">';
+        $imageFileType = $file[1];
+        $targetFile = dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . $oPost->image;
+        echo resize_image($targetFile , 100, 100, $imageFileType, false, true);
         echo "<span>" . $oPost->image . "</span>";
+        
     } 
     ?>
 

@@ -45,9 +45,6 @@ class DatabaseQuery {
 
     public static function insert($obj) {
         global $db;
-        //INSERT INTO table_name (column1, column2, column3, ...)
-        //VALUES (value1, value2, value3, ...);
-        //VALUES (?,?,?, ...);
 
         $array = get_object_vars($obj);
         unset($array['id']);
@@ -86,9 +83,6 @@ class DatabaseQuery {
     public static function update($obj) {
 
         global $db;
-        //UPDATE table_name
-        //SET column1 = value1, column2 = value2, ...
-        //WHERE condition;
 
         $array = get_object_vars($obj);
         unset($array['id']);
@@ -104,7 +98,7 @@ class DatabaseQuery {
         }
 
         $sql.= join(",", $arrayValuePlaceHolders);
-        //make update logic
+
         $sql.= ' WHERE id = ?';
 
         $arrayValues[] = $obj->id;
@@ -132,8 +126,7 @@ class DatabaseQuery {
         if (empty($obj->id)) {
             return t('object_missing');
         }
-
-        //DELETE FROM table_name WHERE condition;
+        
         $sql = 'DELETE FROM ' . static::$tableName . ' WHERE id=?';
 
         $stmt = $db->prepare($sql);

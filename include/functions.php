@@ -36,7 +36,6 @@ function redirect ($url = "") {
         return;
     }
 
-//    header('Location: ' . $url);
     ?><meta http-equiv="refresh" content="0;url=<?php echo $url; ?>" /><?php
 
     exit();
@@ -50,7 +49,7 @@ function createPassword ($password) {
 }
 
 function strLimit($value, $limit = 100, $end = '...') {
-    $limit = $limit - mb_strlen($end); // Take into account $end string into the limit
+    $limit = $limit - mb_strlen($end);
     $valuelen = mb_strlen($value);
     return $limit < $valuelen ? mb_substr($value, 0, mb_strrpos($value, ' ', $limit - $valuelen)) . $end : $value;
 }
@@ -95,7 +94,7 @@ function startQuery ($currentPage) {
     return $start;
 }
 
-function resize_image($file, $w, $h, $type, $crop=FALSE) {
+function resize_image($file, $w, $h, $type, $crop=FALSE, $save=FALSE) {
     list($width, $height) = getimagesize($file);
     $r = $width / $height;
     
@@ -129,22 +128,48 @@ function resize_image($file, $w, $h, $type, $crop=FALSE) {
             $src = imagecreatefromgif($file);
             break;
     }
-
+    
     $dst = imagecreatetruecolor($newwidth, $newheight);
     imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
     
-    switch ($type) {
-        case 'jpg':
-        case 'jpeg':
-            imagejpeg($dst, $file, 100);
-            break;
-        case 'png':
-            imagepng($dst, $file, 100);
-            break;
-        case 'gif':
-            imagegif($dst, $file, 100);
-            break;
+    if ($save) {
+
+        ob_start ();
+
+        switch ($type) {
+            case 'jpg':
+            case 'jpeg':
+                imagejpeg($dst);
+                break;
+            case 'png':
+                imagepng($dst);
+                break;
+            case 'gif':
+                imagegif($dst);
+                break;
+        }
+
+        imagedestroy($dst);
+        $data = ob_get_contents ();
+        ob_end_clean ();
+        $image = "<img src='data:image/jpeg;base64,".base64_encode ($data)."'>";
+        return $image;
+
+    } else {
+        switch ($type) {
+            case 'jpg':
+            case 'jpeg':
+                imagejpeg($dst, $file, 100);
+                break;
+            case 'png':
+                imagepng($dst, $file, 100);
+                break;
+            case 'gif':
+                imagegif($dst, $file, 100);
+                break;
+        }
     }
+    
     
     return $dst;
 }
@@ -153,13 +178,8 @@ function deleteImage($obj) {
     if ($obj->image != NULL) {
 
         $directory = dirname(__DIR__, 1) . DIRECTORY_SEPARATOR . "img" . DIRECTORY_SEPARATOR;
-        $file = explode('.', $obj->image);
-        $imageTwo = $file[0] . "150." . $file[1];
-        $imageThree = $file[0] . "50." . $file[1];
-        
         unlink($directory . $obj->image);
-        unlink($directory . $imageTwo);
-        unlink($directory . $imageThree);
+        
     } 
     
     return true;

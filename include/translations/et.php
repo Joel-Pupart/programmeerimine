@@ -70,5 +70,8 @@ return [
     'image_large' => 'Vabandust, Sinu fail on liiga suur! Kuni 500Kb lubatud!',
     'image_format' => 'Vabandust, ainult JPG, JPEG, PNG & GIF formaadid on lubatud!',
     'you_sure' => 'Olete kindel?',
+    'language' => 'Keel',
+    'role_update' => 'Muuda rolli',
+    'role_edit' => 'Kasutaja roll muudeti edukalt!',
     '' => ''
 ];

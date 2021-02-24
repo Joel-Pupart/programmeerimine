@@ -10,9 +10,6 @@ if (is_numeric($p)) {
     $p = 'blog';
 }
 
-//print_r($_SESSION);
-
-
 $pos = strpos($p, '?search');
 
 if ($pos !== false) {
@@ -28,11 +25,8 @@ checkAccess($p);
 <!doctype html>
 <html>
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
@@ -41,7 +35,6 @@ checkAccess($p);
 </head>
 <body>
 
-    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
         <span class="navbar-brand">Ametikool CMD</span>
@@ -78,7 +71,7 @@ checkAccess($p);
                 <?php else: ?>
                     <li class="nav-item"><a class="nav-link" href="/login"><?php t('login'); ?></a></li>
                 <?php endif; ?>
-            <li>  
+            <li class="nav-item dropdown">  
                 <?php require_once 'views' . DIRECTORY_SEPARATOR . 'translation.php';?>
             </li>
             </ul>
@@ -131,25 +124,6 @@ checkAccess($p);
 
 </div>
 
-    
-
-<!-- Footer 
-<footer class="py-3 bg-dark footer">
-    <div class="container">
-      <p class="m-0 text-center text-white">Joel Pupart 2021</p>
-    </div>
-</footer>
--->
-
-<!-- Optional JavaScript; choose one of the two! -->
-
-<!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-<!--
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>-->
-
-
 <script>
     $('#mainForm').submit(function(e) {
         var currentForm = this;
@@ -180,12 +154,18 @@ checkAccess($p);
             }
         });
     });
+
+    $('#roleForm').submit(function(e) {
+        var currentForm = this;
+        e.preventDefault();
+        bootbox.confirm('<?php t('you_sure') ?>', function(result) {
+            if (result) {
+                currentForm.submit();
+            }
+        });
+    });
+
 </script>
-<!-- Option 2: jQuery, Popper.js, and Bootstrap JS
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
--->
 
 </body>
 </html>

@@ -4,6 +4,8 @@ if ($currentPage == 0) {
     $currentPage = 1;
 }
 
+$counter = 0;
+
 $start = startQuery($currentPage);
 $search = $_POST["search"];
 
@@ -35,19 +37,22 @@ $maxPages = ceil($maxPosts / MAX_ON_PAGE);
 </div>
 <br>
 <div class="row">
-<?php if (!empty($posts)) : foreach ($posts as $post) { ?>
+<?php if (!empty($posts)) : foreach ($posts as $post) { 
+        $counter += 1;   
+?>
 
         <div class="card mb-4 w-100">
             <?php
                 if($post->image != NULL) {
-                    echo '<img src="img/' . $post->image . '" class="card-img-top">';
-                }
-                    /*
-                    $file = explode('.', $post->image);
-                    $image = $file[0] . "150." . $file[1];
-                    */
-            ?>
 
+                    $file = explode('.', $post->image);
+                    $imageFileType = $file[1];
+                    $targetFile = dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . $post->image;
+                    echo resize_image($targetFile , 500, 500, $imageFileType, false, true);
+                    
+                }
+
+            ?>
             <div class="card-body">
             <?php if ($_SESSION["language"] == "en") { ?>
                 <h2 class="card-title"><?php echo $post->title; ?></h2>

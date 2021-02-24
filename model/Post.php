@@ -22,11 +22,8 @@ class Post extends DatabaseQuery {
     public static function all($start = 5, $end = 5, $search = "", $auth = "", $counter = false) {
         global $db;
         
-        //select * from table where title LIKE '%search%' LIMIT 5, 5
-        //select * from table where LIMIT 5, 5
         $sql = 'SELECT * FROM ' . static::$tableName;
-        //SELECT * FROM posts INNER JOIN translations ON posts.id = translations.model_id 
-        //WHERE translations.translation_name = "title" AND (translations.translation LIKE "first" OR posts.title LIKE "first");
+
         $execute = [];
         if (!empty($search)) {
             $search = "%{$search}%";
@@ -37,7 +34,6 @@ class Post extends DatabaseQuery {
         if (!empty($auth) && $auth == 'auth') {
 
             if (in_array($_SESSION['role'],['admin', 'moderator'])) {
-                //allow access
             } else {
                 $sql .= !empty($search) ? ' AND' : ' WHERE';
                 $sql .= ' added_by = ?';

@@ -27,20 +27,7 @@
         $maxUsers = User::count();
     }
     $maxPages = ceil($maxUsers / MAX_ON_PAGE);
-        
-/*
-    $maxUsers = User::count();
-    $maxPages = ceil($maxUsers / MAX_ON_PAGE);
     
-    if ($currentPage == 0) {
-        $currentPage = 1;
-    }
-    $currentPage = $ID;
-    
-    $start = startQuery($currentPage);
-
-    $users = User::all($start);*/
-
 ?>
 <div class="row">
     <div class="col">

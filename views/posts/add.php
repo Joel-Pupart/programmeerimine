@@ -46,10 +46,6 @@ if (isset($action) && $action === 'save') {
             array_push($errors, t('not_image', true));
         }
 
-        if ($_FILES["image"]["size"] > 500000) {
-            array_push($errors, t('image_large', true));
-        }
-
         if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
             array_push($errors, t('image_format', true));
         }
@@ -68,16 +64,7 @@ if (isset($action) && $action === 'save') {
         
         if ($_FILES["image"]["error"] == 0) {
             move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile);
-            $newTarget = implode('.', explode('.', $targetFile, -1));
-            $secondFile = $newTarget . "150." . $imageFileType;
-            $thirdFile = $newTarget . "50." . $imageFileType;
-            
-            copy($targetFile, $newTarget . "150." . $imageFileType);
-            resize_image($secondFile, 150, 150, $imageFileType);
-
-            copy($targetFile, $newTarget . "50." . $imageFileType);
-            resize_image($thirdFile, 50, 50, $imageFileType);
-
+            resize_image($targetFile, 1000, 1000, $imageFileType);
             $post->image = $fileName;
         }
         
@@ -126,12 +113,12 @@ echo empty($errors)
                         type="text"
                         class="form-control"
                         id="title" name="title[en]"
-                        value=""
+                        value="<?php echo $data['title']['en'] ?>"
                 >
             </div>
             <div class="form-group">
                 <label for="body">Body</label>
-                <textarea name="body[en]" rows="5" class="form-control"></textarea>
+                <textarea name="body[en]" rows="5" class="form-control"><?php echo $data['body']['en'] ?></textarea>
             </div>
         </div>
         <div class="tab-pane fade" id="et" role="tabpanel" aria-labelledby="et-tab">
@@ -141,12 +128,12 @@ echo empty($errors)
                         type="text"
                         class="form-control"
                         id="title" name="title[et]"
-                        value=""
+                        value="<?php echo $data['title']['et'] ?>"
                 >
             </div>
             <div class="form-group">
                 <label for="body">Sisu</label>
-                <textarea name="body[et]" rows="5" class="form-control"></textarea>
+                <textarea name="body[et]" rows="5" class="form-control"><?php echo $data['body']['et'] ?></textarea>
             </div>
         </div>
     </div>

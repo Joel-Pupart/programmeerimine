@@ -33,21 +33,7 @@
     }
 
     $maxPages = ceil($maxPosts / MAX_ON_PAGE);
-    
-/*
-    $maxPosts = Post::count();
-    $maxPages = ceil($maxPosts / MAX_ON_PAGE);
 
-    $currentPage = $ID;
-
-    if ($currentPage == 0) {
-        $currentPage = 1;
-    }
-    $start = startQuery($currentPage);
-
-    //changed line from the main code
-    $posts = Post::all($start);
-    */
 ?>
 <div class="row">
     <div class="col">

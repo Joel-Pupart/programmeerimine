@@ -70,5 +70,8 @@ return [
     'image_large' => 'Sorry, your file is too large! Up to 500Kb allowed!',
     'image_format' => 'Sorry, only JPG, JPEG, PNG & GIF files are allowed!',
     'you_sure' => 'Are You sure?',
+    'language' => 'Language',
+    'role_update' => 'Edit role',
+    'role_edit' => 'User role was changed successfully!',
     '' => ''
 ];
