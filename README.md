@@ -14,3 +14,4 @@ return [
     'database' => 'database_name'
 ];
 ```
+Your database must include tables : users, posts, translations. All of those tables have been described in setup.php file, where variables $createUsers, $createPosts and $createTranslations, include correct CREATE TABLE querys for each of them.
